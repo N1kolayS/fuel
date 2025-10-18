@@ -41,12 +41,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
             ['label' => 'Учет топлива', 'url' => ['/trip/index']],
-            ['label' => 'Водители', 'url' => ['/driver/index']],
-            ['label' => 'Топливные карты', 'url' => '#', 'items' => [
+            ['label' => 'Водители', 'url' => ['/driver/index'], 'visible' => !(Yii::$app->user->isGuest) ],
+            ['label' => 'Топливные карты', 'url' => '#',  'visible' => !(Yii::$app->user->isGuest), 'items' => [
                 ['label' => 'Организация', 'url' => ['/provider/index']],
                 ['label' => 'Карты', 'url' => ['/card/index']],
             ]],
-            ['label' => 'Пользователи', 'url' => ['/user/index']],
+            ['label' => 'Справочники', 'url' => '#', 'items' => [
+                ['label' => 'Города', 'url' => ['/town/index'],  'visible' => !(Yii::$app->user->isGuest)],
+            ]],
+            ['label' => 'Пользователи', 'url' => ['/user/index'],  'visible' => !(Yii::$app->user->isGuest)],
 
 
             Yii::$app->user->isGuest
