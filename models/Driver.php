@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\handler\Fuel;
 use Yii;
 
 /**
@@ -15,6 +16,8 @@ use Yii;
  * @property string|null $car
  * @property string|null $default_fuel
  * @property string|null $default_town
+ *
+ * @property-read string $phoneView
  */
 class Driver extends \yii\db\ActiveRecord
 {
@@ -34,6 +37,11 @@ class Driver extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
+
+            [['phone'], 'filter', 'filter' => function($value) {
+                return preg_replace('/\D/', '', $value);
+            }],
+            [['name', 'tg', 'phone'], 'required'],
             [['name', 'tg', 'call', 'phone', 'car', 'default_fuel', 'default_town'], 'default', 'value' => null],
             [['name', 'tg', 'call', 'phone', 'car', 'default_fuel', 'default_town'], 'string', 'max' => 255],
         ];
@@ -46,14 +54,31 @@ class Driver extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'tg' => 'Tg',
-            'call' => 'Call',
-            'phone' => 'Phone',
-            'car' => 'Car',
-            'default_fuel' => 'Default Fuel',
-            'default_town' => 'Default Town',
+            'name' => 'Имя',
+            'tg' => 'Телеграм',
+            'call' => 'Позывной',
+            'phone' => 'Телефон',
+            'car' => 'Машина',
+            'default_fuel' => 'Топливо по умолчанию',
+            'default_town' => 'Город выезда по умолчанию',
         ];
     }
+
+    /**
+     * @return Fuel[]
+     */
+    public static function listFuels(): array
+    {
+        return Fuel::findAll();
+    }
+
+    /**
+     * @return Town[]|array|array[]|\yii\db\ActiveRecord[]
+     */
+    public static function listTowns(): array
+    {
+        return Town::find()->all();
+    }
+
 
 }

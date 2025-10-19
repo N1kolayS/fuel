@@ -36,6 +36,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
@@ -46,8 +47,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Организация', 'url' => ['/provider/index']],
                 ['label' => 'Карты', 'url' => ['/card/index']],
             ]],
-            ['label' => 'Справочники', 'url' => '#', 'items' => [
-                ['label' => 'Города', 'url' => ['/town/index'],  'visible' => !(Yii::$app->user->isGuest)],
+            ['label' => 'Справочники', 'url' => '#', 'visible' => !(Yii::$app->user->isGuest), 'items' => [
+                ['label' => 'Города', 'url' => ['/town/index']  ],
             ]],
             ['label' => 'Пользователи', 'url' => ['/user/index'],  'visible' => !(Yii::$app->user->isGuest)],
 

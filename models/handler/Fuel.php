@@ -49,8 +49,8 @@ class Fuel
         foreach (static::$_data as $datum)
         {
             $model = (new static());
-            $model->name = $datum['id'];
-            $models[$datum['id']] = $model;
+            $model->name = $datum['name'];
+            $models[$datum['name']] = $model;
 
         }
         return $models;

@@ -14,7 +14,7 @@ class CardSearch extends Card
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'pin', 'provider_id', 'keeper_id'], 'integer'],
@@ -39,7 +39,7 @@ class CardSearch extends Card
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $formName = null)
+    public function search(array $params, string $formName = null): ActiveDataProvider
     {
         $query = Card::find();
 

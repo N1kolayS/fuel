@@ -2,27 +2,47 @@
 
 namespace app\controllers;
 
+use app\models\Driver;
 use app\models\Trip;
 use app\models\TripSearch;
+use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * TripController implements the CRUD actions for Trip model.
  */
 class TripController extends Controller
 {
+
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index', 'view'],
+                            'allow' => true,
+                            'roles' => ['?'],
+                        ],
+                        [
+                            'actions' => ['index', 'view', 'update', 'create', 'delete', 'ajax-get-driver'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -45,6 +65,37 @@ class TripController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * @param string $term
+     * @return array
+     */
+    public function actionAjaxGetDriver(string $term): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = [];
+        if ($term)
+        {
+            /**
+             * @var $models Driver[]
+             */
+            $models = Driver::find()->where(['like', 'name', $term])->limit(20)->all();
+            foreach ($models as $model)
+            {
+                $data[] = [
+                    'id' => $model->id,
+                    'name' => $model->name,
+                    'label' => $model->name. ' '. $model->call,
+                    'call' => $model->call,
+                    'phone' => $model->phone,
+                    'default_fuel' => $model->default_fuel,
+                    'default_town' => $model->default_town,
+                    'tg' => $model->tg,
+                ];
+            }
+        }
+        return $data;
     }
 
     /**

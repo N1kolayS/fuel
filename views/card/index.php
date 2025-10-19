@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\CardSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Cards';
+$this->title = 'Карты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card-index">
@@ -18,23 +18,40 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Card', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать карту', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'name',
-            'number',
+            [
+                    'attribute' => 'number',
+                'content' => function(Card $model) {
+                    return $model->numberView;
+                }
+            ],
+
             'pin',
-            'provider_id',
-            //'keeper_id',
+
+            [
+
+                'attribute' => 'provider_id',
+                'content' => function(Card $model) {
+                    return $model->provider->name;
+                }
+            ],
+            [
+
+                'attribute' => 'keeper_id',
+                'content' => function(Card $model) {
+                    return $model->keeper->username;
+                }
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Card $model, $key, $index, $column) {

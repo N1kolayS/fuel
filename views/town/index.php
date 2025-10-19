@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\TownSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Towns';
+$this->title = 'Спраовчник городов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="town-index">
@@ -18,18 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Town', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать город', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+
             'name',
             [
                 'class' => ActionColumn::className(),

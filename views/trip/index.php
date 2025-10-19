@@ -10,41 +10,36 @@ use yii\grid\GridView;
 /** @var app\models\TripSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Trips';
+$this->title = 'Выезды';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trip-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Create Trip', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить выезд', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'created_at',
             'trip_at',
             'driver_name',
             'driver_tg',
-            //'driver_call',
-            //'driver_phone',
-            //'origin',
-            //'destination',
-            //'value',
-            //'amount',
-            //'card_id',
-            //'fuel',
+            'driver_call',
+            'driver_phone',
+            'origin',
+            'destination',
+            'value',
+            'amount',
+            'card_id',
+            'fuel',
             //'user_id',
             [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Trip $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,15 +15,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'tg')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'tg', [
+        'template' => '{label}<div class="form-group input-group required"><span class="input-group-text" id="basic-addon1">@</span>{input}</div><p>{error}</p>',
+    ])->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'call')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::class, [
+        'mask' => '7(999)999-99-99',
+    ]) ?>
 
     <?= $form->field($model, 'car')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'default_fuel')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'default_fuel')->dropDownList(ArrayHelper::map($model::listFuels(), 'name', 'name')) ?>
 
     <?= $form->field($model, 'default_town')->textInput(['maxlength' => true]) ?>
 

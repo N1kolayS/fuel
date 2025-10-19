@@ -22,7 +22,7 @@ use Yii;
  * @property string|null $fuel
  * @property int $user_id
  *
- * @property User $user
+ * @property-read User $user
  */
 class Trip extends \yii\db\ActiveRecord
 {
@@ -31,7 +31,7 @@ class Trip extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'trip';
     }
@@ -39,14 +39,14 @@ class Trip extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
+            [['driver_name', 'driver_tg', 'driver_phone', 'origin', 'destination', 'value', 'amount', 'card_id',], 'required'],
             [['created_at', 'trip_at', 'driver_name', 'driver_tg', 'driver_call', 'driver_phone', 'origin', 'destination', 'value', 'amount', 'card_id', 'fuel'], 'default', 'value' => null],
             [['created_at', 'trip_at'], 'safe'],
             [['value'], 'number'],
             [['amount', 'card_id', 'user_id'], 'integer'],
-            [['user_id'], 'required'],
             [['driver_name', 'driver_tg', 'driver_call', 'driver_phone', 'origin', 'destination', 'fuel'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -55,18 +55,18 @@ class Trip extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
             'created_at' => 'Created At',
             'trip_at' => 'Trip At',
-            'driver_name' => 'Driver Name',
-            'driver_tg' => 'Driver Tg',
-            'driver_call' => 'Driver Call',
-            'driver_phone' => 'Driver Phone',
-            'origin' => 'Origin',
-            'destination' => 'Destination',
+            'driver_name' =>  'Фамилия Имя',
+            'driver_tg' => 'Telegram',
+            'driver_call' => 'Позывной',
+            'driver_phone' => 'Телефон',
+            'origin' => 'Выезд',
+            'destination' => 'Назначение',
             'value' => 'Value',
             'amount' => 'Amount',
             'card_id' => 'Card ID',
@@ -80,9 +80,31 @@ class Trip extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    /**
+     * @return Card[]|array|array[]|\yii\db\ActiveRecord[]
+     */
+    public static function listCards(): array
+    {
+        return Card::find()->all();
+    }
+
+    /**
+     * @param $insert
+     * @return bool
+     */
+    public function beforeSave($insert): bool
+    {
+        if ($this->isNewRecord)
+        {
+            $this->user_id = Yii::$app->user->id;
+        }
+        return parent::beforeSave($insert);
+    }
+
 
 }

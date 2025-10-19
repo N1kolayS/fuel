@@ -14,7 +14,7 @@ class TripSearch extends Trip
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'amount', 'card_id', 'user_id'], 'integer'],

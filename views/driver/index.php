@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\DriverSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Drivers';
+$this->title = 'Водители';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="driver-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Driver', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать водителя', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,16 +27,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'name',
-            'tg',
+            [
+                'attribute' => 'tg',
+                'content' => function(Driver $model) {
+                    return Html::a($model->tg, "https://t.me/".$model->tg, ['target' => '_blank']);
+                }
+            ],
+
             'call',
             'phone',
-            //'car',
-            //'default_fuel',
-            //'default_town',
+            'car',
+            'default_fuel',
+            'default_town',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Driver $model, $key, $index, $column) {

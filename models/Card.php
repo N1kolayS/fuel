@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+
 use Yii;
 
 /**
@@ -14,8 +15,9 @@ use Yii;
  * @property int $provider_id
  * @property int|null $keeper_id
  *
- * @property User $keeper
- * @property Provider $provider
+ * @property-read User $keeper
+ * @property-read Provider $provider
+ * @property-read string $numberView
  */
 class Card extends \yii\db\ActiveRecord
 {
@@ -24,7 +26,7 @@ class Card extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'card';
     }
@@ -32,7 +34,7 @@ class Card extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'number', 'pin', 'keeper_id'], 'default', 'value' => null],
@@ -50,17 +52,25 @@ class Card extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getNumberView(): string
+    {
+        return chunk_split($this->number, 4);
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'number' => 'Number',
+            'name' => 'Название',
+            'number' => 'Номер',
             'pin' => 'Pin',
-            'provider_id' => 'Provider ID',
-            'keeper_id' => 'Keeper ID',
+            'provider_id' => 'Обслуживающая организация',
+            'keeper_id' => 'Хранитель',
         ];
     }
 
@@ -69,7 +79,7 @@ class Card extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getKeeper()
+    public function getKeeper(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'keeper_id']);
     }
@@ -79,7 +89,7 @@ class Card extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProvider()
+    public function getProvider(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Provider::class, ['id' => 'provider_id']);
     }
@@ -92,6 +102,9 @@ class Card extends \yii\db\ActiveRecord
         return Provider::find()->all();
     }
 
+    /**
+     * @return User[]
+     */
     public static function listKeepers(): array
     {
         return User::find()->all();
