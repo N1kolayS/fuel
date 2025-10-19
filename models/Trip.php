@@ -23,6 +23,7 @@ use Yii;
  * @property int $user_id
  *
  * @property-read User $user
+ * @property-read Card|null $card
  */
 class Trip extends \yii\db\ActiveRecord
 {
@@ -60,17 +61,17 @@ class Trip extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'created_at' => 'Created At',
-            'trip_at' => 'Trip At',
+            'trip_at' => 'Дата выезда',
             'driver_name' =>  'Фамилия Имя',
             'driver_tg' => 'Telegram',
             'driver_call' => 'Позывной',
             'driver_phone' => 'Телефон',
             'origin' => 'Выезд',
             'destination' => 'Назначение',
-            'value' => 'Value',
-            'amount' => 'Amount',
+            'value' => 'Объем л',
+            'amount' => 'Сумма',
             'card_id' => 'Card ID',
-            'fuel' => 'Fuel',
+            'fuel' => 'Вид топлива',
             'user_id' => 'User ID',
         ];
     }
@@ -83,6 +84,14 @@ class Trip extends \yii\db\ActiveRecord
     public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCard(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(Card::class, ['id' => 'card_id']);
     }
 
     /**
@@ -101,6 +110,7 @@ class Trip extends \yii\db\ActiveRecord
     {
         if ($this->isNewRecord)
         {
+            $this->created_at = date('Y-m-d H:i:s');
             $this->user_id = Yii::$app->user->id;
         }
         return parent::beforeSave($insert);

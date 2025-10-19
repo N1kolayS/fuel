@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
 
-            'created_at',
+            //'created_at',
             'trip_at',
             'driver_name',
             'driver_tg',
@@ -35,11 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'destination',
             'value',
             'amount',
-            'card_id',
+            [
+                'attribute' => 'card_id',
+                'content' => function(Trip $model) {
+                    return $model->card ? $model->card->name : ' ' ;
+                }
+            ],
+
             'fuel',
             //'user_id',
             [
                 'class' => ActionColumn::class,
+                'template' => '{view}',
                 'urlCreator' => function ($action, Trip $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
