@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\handler\Fuel;
 use Yii;
 
 /**
@@ -70,7 +71,7 @@ class Trip extends \yii\db\ActiveRecord
             'destination' => 'Назначение',
             'value' => 'Объем л',
             'amount' => 'Сумма',
-            'card_id' => 'Card ID',
+            'card_id' => 'Карта',
             'fuel' => 'Вид топлива',
             'user_id' => 'User ID',
         ];
@@ -101,6 +102,15 @@ class Trip extends \yii\db\ActiveRecord
     {
         return Card::find()->all();
     }
+
+    /**
+     * @return Fuel[]
+     */
+    public static function listFuels(): array
+    {
+        return Fuel::findAll();
+    }
+
 
     /**
      * @param $insert

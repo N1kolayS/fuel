@@ -19,9 +19,10 @@ $js = <<<JS
 const DRIVER_TG = $("#trip-driver_tg")
 const DRIVER_PHONE = $("#trip-driver_phone")
 const DRIVER_CALL = $("#trip-driver_call")
-const DRIVER_ORIGIN = $("#trip-driver_origin")
+const DRIVER_ORIGIN = $("#trip-origin")
 const DRIVER_CARD = $("#trip-driver_card_id")
-const DRIVER_FUEL = $("#trip-driver_fuel")
+const DRIVER_FUEL = $("#trip-fuel")
+
 
 
 function setClient(item) {
@@ -78,9 +79,11 @@ $this->registerJs($js);
 
                 <?= $form->field($model, 'origin')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'card_id')->dropDownList(ArrayHelper::map($model::listCards(), 'id', 'name')) ?>
+                <?= $form->field($model, 'card_id')->dropDownList(
+                        ArrayHelper::map($model::listCards(), 'id', 'name'), ['prompt' => '- Укажите карту - ']) ?>
 
-                <?= $form->field($model, 'fuel')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'fuel')->dropDownList(ArrayHelper::map($model::listFuels(), 'name', 'name')) ?>
             </div>
             <div class="col-6" >
                 <?= $form->field($model, 'trip_at')->input('date') ?>
