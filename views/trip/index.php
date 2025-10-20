@@ -33,11 +33,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
 
             //'created_at',
-            'trip_at',
+            [
+                'attribute' => 'trip_at',
+                'content' => function(Trip $model) {
+                    return Yii::$app->formatter->asDate($model->trip_at, "dd LLLL" ) ;
+                }
+            ],
+            //'trip_at',
             'driver_name',
-            'driver_tg',
+
+            [
+                'attribute' => 'driver_tg',
+                'content' => function(Trip $model) {
+                    return Html::a($model->driver_tg, "https://t.me/".$model->driver_tg, ['target' => '_blank']);
+                }
+            ],
             'driver_call',
             'driver_phone',
+            [
+                'attribute' => 'driver_phone',
+                'content' => function(Trip $model) {
+                    return $model->driver_phone;
+                }
+            ],
             'origin',
             'destination',
             'value',

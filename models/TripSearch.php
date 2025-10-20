@@ -40,7 +40,7 @@ class TripSearch extends Trip
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $formName = null)
+    public function search($params, $formName = null): ActiveDataProvider
     {
         $query = Trip::find();
 
@@ -48,6 +48,11 @@ class TripSearch extends Trip
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'trip_at' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params, $formName);
