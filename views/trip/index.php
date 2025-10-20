@@ -49,11 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'driver_call',
-            'driver_phone',
+
             [
                 'attribute' => 'driver_phone',
+                'headerOptions' => ['width' => '140'],
                 'content' => function(Trip $model) {
-                    return $model->driver_phone;
+                    return Yii::$app->formatter->format($model->driver_phone, 'phone');
                 }
             ],
             'origin',

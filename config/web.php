@@ -20,6 +20,10 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'pTI0lUVivN6HXZQEV7YWa9TYLBSY3YG3',
         ],
+        'formatter' => [
+            'class' => 'app\components\Formatter',
+
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

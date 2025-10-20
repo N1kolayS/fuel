@@ -37,7 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'call',
-            'phone',
+
+            [
+                'attribute' => 'phone',
+                'headerOptions' => ['width' => '140'],
+                'content' => function(Driver $model) {
+                    return Yii::$app->formatter->format($model->phone, 'phone');
+                }
+            ],
             'car',
             'default_fuel',
             'default_town',
