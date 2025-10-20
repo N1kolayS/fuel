@@ -61,9 +61,9 @@ $gridColumns = [
         <div class="col">
             <p class="lead">
 
-                В предыдущем месяце: <strong><?=Trip::currentMonth()?> рублей</strong>
+                В этом месяце: <strong><?=Trip::currentMonth()?> рублей</strong>
                 <br/>
-                В этом месяце: <strong><?=Trip::previousMonth()?> рублей</strong>
+                В предыдущем месяце: <strong><?=Trip::previousMonth()?> рублей</strong>
             </p>
 
         </div>
@@ -94,15 +94,25 @@ $gridColumns = [
                 }
             ],
             //'trip_at',
-            'driver_name',
+
+            [
+                'attribute' => 'driver_name',
+                'content' => function(Trip $model) {
+
+                    $content[] =  Html::tag('p',$model->driver_name);
+                    $content[] =  Html::tag('span',$model->driver_call, ['class' => 'text-muted']);
+                    return implode("\n", $content);
+                }
+            ],
 
             [
                 'attribute' => 'driver_tg',
                 'content' => function(Trip $model) {
+
                     return Html::a($model->driver_tg, "https://t.me/".$model->driver_tg, ['target' => '_blank']);
                 }
             ],
-            'driver_call',
+
 
             [
                 'attribute' => 'driver_phone',

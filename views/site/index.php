@@ -16,9 +16,9 @@ $this->title = 'Каталог Книг';
         <br/>
         <p class="lead">
 
-            В предыдущем месяце: <strong><?=Trip::currentMonth()?> рублей</strong>
+            В этом месяце: <strong><?=Trip::currentMonth()?> рублей</strong>
             <br/>
-            В этом месяце: <strong><?=Trip::previousMonth()?> рублей</strong>
+            В предыдущем месяце: <strong><?=Trip::previousMonth()?> рублей</strong>
         </p>
     </div>
     <div>

@@ -47,9 +47,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => 'Организация', 'url' => ['/provider/index']],
                 ['label' => 'Карты', 'url' => ['/card/index']],
             ]],
-            ['label' => 'Справочники', 'url' => '#', 'visible' => !(Yii::$app->user->isGuest), 'items' => [
-                ['label' => 'Города', 'url' => ['/town/index']  ],
-            ]],
+
             ['label' => 'Пользователи', 'url' => ['/user/index'],  'visible' => !(Yii::$app->user->isGuest)],
 
 

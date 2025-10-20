@@ -30,6 +30,9 @@ class User extends ActiveRecord implements IdentityInterface
 
 
 
+    public ?string $password_real = null;
+
+
     /**
      * {@inheritdoc}
      */
@@ -48,12 +51,26 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['phone', 'password_hash'], 'required'],
+            [['phone', 'password_real'], 'required'],
             [['phone' ], 'unique'],
+            ['username', 'string'],
             ['email', 'email'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
+    }
+
+    /**
+     * @return bool
+     * @throws \yii\base\Exception
+     * @throws \yii\db\Exception
+     */
+    public function createNew(): bool
+    {
+        $this->setPassword($this->password_real);
+        $this->generateAuthKey();
+        $this->status = User::STATUS_ACTIVE;
+        return $this->save();
     }
 
     // IdentityInterface methods
