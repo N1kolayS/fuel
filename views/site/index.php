@@ -2,6 +2,8 @@
 
 /** @var yii\web\View $this */
 
+use app\models\Trip;
+
 $this->title = 'Каталог Книг';
 ?>
 <div class="site-index">
@@ -12,6 +14,12 @@ $this->title = 'Каталог Книг';
         <?= \yii\helpers\Html::a('Записать выезд', ['trip/create'], ['class' => 'btn btn-success btn-lg'])?>
 
     </div>
+    <div>
 
+            В предыдущем месяце <strong><?=Trip::previousMonth()?></strong>
+        <br/>
+            В этом месяце <strong><?=Trip::currentMonth()?></strong>
+
+    </div>
 
 </div>

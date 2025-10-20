@@ -14,10 +14,17 @@ $this->title = 'Выезды';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trip-index">
+    <div>
 
-    <p>
-        <?= Html::a('Добавить выезд', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <div class="float-start">
+            <?= Html::a('Добавить выезд', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+        <div class="float-end">
+            В предыдущем месяце <strong><?=Trip::previousMonth()?></strong>
+            <br/>
+            В этом месяце <strong><?=Trip::currentMonth()?></strong>
+        </div>
+    </div>
 
 
     <?= GridView::widget([

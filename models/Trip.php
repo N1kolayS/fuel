@@ -111,6 +111,39 @@ class Trip extends \yii\db\ActiveRecord
         return Fuel::findAll();
     }
 
+    /**
+     * @return int
+     */
+    public static function currentMonth(): int
+    {
+        // Текущий месяц
+        $currentMonthAmount = (new \yii\db\Query())
+            ->select(['COALESCE(SUM(amount), 0) as amount'])
+            ->from(self::tableName())
+            ->where([
+                'YEAR(trip_at)' => new \yii\db\Expression('YEAR(CURDATE())'),
+                'MONTH(trip_at)' => new \yii\db\Expression('MONTH(CURDATE())')
+            ])
+            ->scalar();
+
+        return (int)$currentMonthAmount;
+    }
+
+    /**
+     * @return int
+     */
+    public static function previousMonth(): int
+    {
+        $previousMonthAmount = (new \yii\db\Query())
+            ->select(['COALESCE(SUM(amount), 0) as amount'])
+            ->from(self::tableName())
+            ->where([
+                'YEAR(trip_at)' => new \yii\db\Expression('YEAR(CURDATE() - INTERVAL 1 MONTH)'),
+                'MONTH(trip_at)' => new \yii\db\Expression('MONTH(CURDATE() - INTERVAL 1 MONTH)')
+            ])
+            ->scalar();
+        return (int)$previousMonthAmount;
+    }
 
     /**
      * @param $insert

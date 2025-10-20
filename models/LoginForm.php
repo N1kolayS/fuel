@@ -26,12 +26,28 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
+            [['phone'], 'filter', 'filter' => function($value) {
+                return preg_replace('/\D/', '', $value);
+            }],
             // username and password are both required
             [['phone', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'phone' => 'Телефон',
+            'password' => 'Пароль',
+            'rememberMe' => 'Запомнить меня',
+
         ];
     }
 
