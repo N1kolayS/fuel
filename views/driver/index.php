@@ -26,6 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => '', // полностью убираем summary
+        'tableOptions' => ['class' => 'table table-striped table-hover'],
         'columns' => [
 
             'name',

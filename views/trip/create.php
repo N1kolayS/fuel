@@ -31,7 +31,7 @@ function setClient(item) {
     DRIVER_CALL.val(item.call);
     DRIVER_ORIGIN.val(item.default_town);
     
-    DRIVER_FUEL.val(item.driver_fuel);
+    DRIVER_FUEL.val(item.default_fuel);
         
         console.log(item);
 }
@@ -42,64 +42,82 @@ $this->registerJs($js);
 ?>
 <div class="trip-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 
     <div class="trip-form">
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
         <div class="row">
             <div class="col-6">
-                <?= $form->field($model, 'driver_name')
-                    ->widget(AutoComplete::class, [
-                        'clientOptions' => [
-                            'source' => Url::to(['ajax-get-driver']),
-                            'minLength' => 2,
-                            'select' =>new JsExpression('function(event, ui) {
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-center">Данные водителя</h5>
+
+                        <?= $form->field($model, 'driver_name')
+                            ->widget(AutoComplete::class, [
+                                'clientOptions' => [
+                                    'source' => Url::to(['ajax-get-driver']),
+                                    'minLength' => 2,
+                                    'select' =>new JsExpression('function(event, ui) {
                
                                 this.value = ui.item.name;
                                 setClient(ui.item)
                                 return false;
                             }')
-                        ],
+                                ],
 
-                        'options' => [
-                            'tabindex' => 1,
-                            'autofocus'=>'autofocus',
-                            'class' => 'form-control',
-                            'placeholder' => 'Фамилия или Имя',
+                                'options' => [
+                                    'tabindex' => 1,
+                                    'autofocus'=>'autofocus',
+                                    'class' => 'form-control',
+                                    'placeholder' => 'Фамилия  Имя',
 
-                        ]
-                    ]) ?>
-
-
-                <?= $form->field($model, 'driver_tg')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'driver_call')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'driver_phone')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'origin')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'card_id')->dropDownList(
-                        ArrayHelper::map($model::listCards(), 'id', 'name'), ['prompt' => '- Укажите карту - ']) ?>
+                                ]
+                            ]) ?>
 
 
-                <?= $form->field($model, 'fuel')->dropDownList(ArrayHelper::map($model::listFuels(), 'name', 'name')) ?>
+
+                        <?= $form->field($model, 'driver_tg')->textInput(['maxlength' => true, 'placeholder' => 'Телеграм']) ?>
+
+                        <?= $form->field($model, 'driver_call')->textInput(['maxlength' => true, 'placeholder' => 'Позывной (не обязательно)']) ?>
+
+
+                        <?= $form->field($model, 'driver_phone')->widget(\yii\widgets\MaskedInput::class, [
+                            'mask' => '7(999)999-99-99',
+                        ]) ?>
+
+                        <?= $form->field($model, 'origin')->textInput(['maxlength' => true, 'placeholder' => 'Город выезда']) ?>
+
+                        <?= $form->field($model, 'card_id')->dropDownList(
+                            ArrayHelper::map($model::listCards(), 'id', 'name'), ['prompt' => '- Укажите карту - ']) ?>
+
+
+                        <?= $form->field($model, 'fuel')->dropDownList(ArrayHelper::map($model::listFuels(), 'name', 'name')) ?>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-6" >
-                <?= $form->field($model, 'trip_at')->input('date') ?>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted text-center">Информация о выезде</h5>
+                        <?= $form->field($model, 'trip_at')->input('date') ?>
 
-                <?= $form->field($model, 'destination')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'destination')->textInput(['maxlength' => true, 'placeholder' => 'Населенный пункт']) ?>
 
-                <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'value')->textInput(['maxlength' => true, 'placeholder' => 'Количество топлива в литрах']) ?>
 
-                <?= $form->field($model, 'amount')->textInput() ?>
+                        <?= $form->field($model, 'amount')->textInput(['placeholder' => 'Сумма без копеек']) ?>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
 
-        <div class="form-group">
-            <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
-        </div>
 
         <?php ActiveForm::end(); ?>
 

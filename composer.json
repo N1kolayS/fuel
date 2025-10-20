@@ -22,7 +22,10 @@
         "mihaildev/yii2-elfinder": "*",
         "kartik-v/yii2-widget-select2": "dev-master",
         "vlucas/phpdotenv": "^5.6",
-        "yiisoft/yii2-httpclient": "^2.0"
+        "yiisoft/yii2-httpclient": "^2.0",
+        "kartik-v/yii2-bootstrap5-dropdown": "@dev",
+        "kartik-v/yii2-export": "@dev",
+        "rmrevin/yii2-fontawesome": "~3.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

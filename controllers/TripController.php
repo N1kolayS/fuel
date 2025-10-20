@@ -86,7 +86,7 @@ class TripController extends Controller
                 $data[] = [
                     'id' => $model->id,
                     'name' => $model->name,
-                    'label' => $model->name. ' '. $model->call,
+                    'label' => $model->name. ' ('. $model->call.')',
                     'call' => $model->call,
                     'phone' => $model->phone,
                     'default_fuel' => $model->default_fuel,

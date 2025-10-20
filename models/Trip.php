@@ -44,10 +44,16 @@ class Trip extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['driver_name', 'driver_tg', 'driver_phone', 'origin', 'destination', 'value', 'amount', 'card_id',], 'required'],
+            [['trip_at', 'driver_name', 'driver_tg', 'driver_phone', 'origin', 'destination', 'value', 'amount', 'card_id',], 'required'],
             [['created_at', 'trip_at', 'driver_name', 'driver_tg', 'driver_call', 'driver_phone', 'origin', 'destination', 'value', 'amount', 'card_id', 'fuel'], 'default', 'value' => null],
             [['created_at', 'trip_at'], 'safe'],
             [['value'], 'number'],
+            [['driver_phone'], 'filter', 'filter' => function($value) {
+                return preg_replace('/\D/', '', $value);
+            }],
+            [['driver_tg'], 'filter', 'filter' => function($value) {
+                return str_replace('@', '', $value);
+            }],
             [['amount', 'card_id', 'user_id'], 'integer'],
             [['driver_name', 'driver_tg', 'driver_call', 'driver_phone', 'origin', 'destination', 'fuel'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -68,7 +74,7 @@ class Trip extends \yii\db\ActiveRecord
             'driver_call' => 'Позывной',
             'driver_phone' => 'Телефон',
             'origin' => 'Выезд',
-            'destination' => 'Назначение',
+            'destination' => 'Куда',
             'value' => 'Объем л',
             'amount' => 'Сумма',
             'card_id' => 'Карта',
