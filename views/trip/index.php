@@ -72,6 +72,13 @@ $gridColumns = [
             echo ExportMenu::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => $gridColumns,
+                'exportConfig' => [
+                    ExportMenu::FORMAT_HTML => false,
+                    ExportMenu::FORMAT_TEXT => false,
+                    ExportMenu::FORMAT_PDF => false,
+                    ExportMenu::FORMAT_EXCEL => false,
+
+                ],
             ]);
 
             ?>

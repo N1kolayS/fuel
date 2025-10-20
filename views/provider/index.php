@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\ProviderSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Providers';
+$this->title = 'Организация спонсор';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="provider-index">
@@ -18,23 +18,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Provider', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'summary' => '',
+        'tableOptions' => ['class' => 'table table-striped table-hover'],
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'name',
             'balance',
             'comment',
             [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
+                'template' => '{view}',
                 'urlCreator' => function ($action, Provider $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
