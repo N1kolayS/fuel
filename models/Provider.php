@@ -34,6 +34,7 @@ class Provider extends \yii\db\ActiveRecord
         return [
             [['name', 'balance', 'comment'], 'default', 'value' => null],
             [['balance'], 'integer'],
+            ['name', 'required'],
             [['balance'], 'default', 'value' => 0],
             [['name', 'comment'], 'string', 'max' => 255],
         ];
@@ -46,9 +47,9 @@ class Provider extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Название',
             'balance' => 'Balance',
-            'comment' => 'Comment',
+            'comment' => 'Комментарии',
         ];
     }
 
