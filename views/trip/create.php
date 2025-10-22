@@ -47,7 +47,7 @@ $this->registerJs($js);
     <div class="trip-form">
         <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="card" >
                     <div class="card-body">
                         <h5 class="card-title text-muted text-center">Данные водителя</h5>
@@ -96,7 +96,7 @@ $this->registerJs($js);
                 </div>
 
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-muted text-center">Информация о выезде</h5>
