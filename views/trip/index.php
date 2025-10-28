@@ -97,6 +97,7 @@ $gridColumns = [
             //'created_at',
             [
                 'attribute' => 'trip_at',
+                'headerOptions' => ['width' => '40'],
                 'content' => function(Trip $model) {
                     return Yii::$app->formatter->asDate($model->trip_at, "dd LLLL" ) ;
                 }
@@ -114,30 +115,33 @@ $gridColumns = [
             ],
 
             [
-                'attribute' => 'driver_tg',
+                'label' => 'Контакты',
+                'headerOptions' => ['width' => '150'],
                 'content' => function(Trip $model) {
                     if (Yii::$app->user->isGuest) {
                         return Html::a(FAS::icon('eye-slash'), ['site/login']);
                     }
-                    return Html::a($model->driver_tg, "https://t.me/".$model->driver_tg, ['target' => '_blank']);
+                    $content[] =  Html::a($model->driver_tg, "https://t.me/".$model->driver_tg, ['target' => '_blank']);
+                    $content[] =  '<br>'  ;
+                    $content[] =  Yii::$app->formatter->format($model->driver_phone, 'phone')  ;
+                    return implode("\n", $content);
                 }
             ],
 
-
-            [
-                'attribute' => 'driver_phone',
-                'headerOptions' => ['width' => '140'],
-                'content' => function(Trip $model) {
-                    if (Yii::$app->user->isGuest) {
-                        return Html::a(FAS::icon('eye-slash'), ['site/login']);
-                    }
-                    return Yii::$app->formatter->format($model->driver_phone, 'phone');
-                }
-            ],
             'origin',
             'destination',
-            'value',
-            'amount',
+            [
+                'attribute' => 'value',
+                'label' => 'Топливо',
+                'content' => function(Trip $model) {
+                    $content[] =  $model->amount. Html::tag('span', " руб" , ['class' => 'text-muted']);
+                    $content[] =  '<br>'  ;
+                    $content[] =   $model->value. " ".
+                        Html::tag('span', $model->fuel , ['class' => 'text-muted']);
+                    return implode("\n", $content);
+                }
+            ],
+
             [
                 'attribute' => 'card_id',
                 'content' => function(Trip $model) {
@@ -145,7 +149,7 @@ $gridColumns = [
                 }
             ],
 
-            'fuel',
+
             //'user_id',
             [
                 'class' => ActionColumn::class,
