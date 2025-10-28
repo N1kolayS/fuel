@@ -3,6 +3,7 @@
 
 use app\models\Trip;
 use kartik\export\ExportMenu;
+use rmrevin\yii\fontawesome\FAS;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -115,7 +116,9 @@ $gridColumns = [
             [
                 'attribute' => 'driver_tg',
                 'content' => function(Trip $model) {
-
+                    if (Yii::$app->user->isGuest) {
+                        return Html::a(FAS::icon('eye-slash'), ['site/login']);
+                    }
                     return Html::a($model->driver_tg, "https://t.me/".$model->driver_tg, ['target' => '_blank']);
                 }
             ],
@@ -125,6 +128,9 @@ $gridColumns = [
                 'attribute' => 'driver_phone',
                 'headerOptions' => ['width' => '140'],
                 'content' => function(Trip $model) {
+                    if (Yii::$app->user->isGuest) {
+                        return Html::a(FAS::icon('eye-slash'), ['site/login']);
+                    }
                     return Yii::$app->formatter->format($model->driver_phone, 'phone');
                 }
             ],
@@ -144,6 +150,7 @@ $gridColumns = [
             [
                 'class' => ActionColumn::class,
                 'template' => '{view}',
+                'visible' => !Yii::$app->user->isGuest,
                 'urlCreator' => function ($action, Trip $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
