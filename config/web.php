@@ -21,6 +21,31 @@ $config = [
 
     ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                // Переопределяем сторонний бандл
+                'rmrevin\yii\fontawesome\AssetBundle' => [
+                    'sourcePath' => null,
+                    'basePath'   => '@webroot',
+                    'baseUrl'    => '@web',
+                    'css' => ['fonts/fontawesome/css/all.css'],
+                ],
+                'rmrevin\yii\fontawesome\CdnProAssetBundle' => [
+                    'sourcePath' => null,
+                    'basePath'   => '@webroot',
+                    'baseUrl'    => '@web',
+                    'css' => ['fonts/fontawesome/css/all.css'],
+                ],
+                'rmrevin\yii\fontawesome\CdnFreeAssetBundle' => [
+                    'sourcePath' => null,
+                    'basePath'   => '@webroot',
+                    'baseUrl'    => '@web',
+                    'css' => ['fonts/fontawesome/css/all.css'],
+                ],
+            ],
+
+            'appendTimestamp' => true,
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'pTI0lUVivN6HXZQEV7YWa9TYLBSY3YG3',
